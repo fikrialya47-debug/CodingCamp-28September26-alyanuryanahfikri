@@ -1,0 +1,539 @@
+/* =========================================
+   Reset & Base
+   ========================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Light theme (default) ── */
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --primary: #6c63ff;
+  --primary-hover: #574fd6;
+  --danger: #ff4757;
+  --danger-hover: #e84045;
+  --text: #2d2d3a;
+  --text-muted: #8a8a9a;
+  --border: #e2e5f0;
+  --radius: 14px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+
+  /* Category colours (match Chart.js dataset) */
+  --food: #ff6b6b;
+  --transport: #4ecdc4;
+  --fun: #ffe66d;
+
+  /* Challenge 3: over-limit highlight */
+  --overlimit-bg:     rgba(255, 71, 87, 0.08);
+  --overlimit-border: #ff4757;
+  --overlimit-text:   #c0392b;
+}
+
+/* ── Challenge 1: Dark theme ── */
+[data-theme="dark"] {
+  --bg:          #16161e;
+  --surface:     #1e1e2a;
+  --primary:     #7c73ff;
+  --primary-hover: #6158e0;
+  --danger:      #ff6070;
+  --danger-hover:#e84055;
+  --text:        #e8e8f0;
+  --text-muted:  #7a7a90;
+  --border:      #2e2e40;
+  --shadow:      0 4px 20px rgba(0, 0, 0, 0.35);
+
+  --overlimit-bg:     rgba(255, 96, 112, 0.12);
+  --overlimit-border: #ff6070;
+  --overlimit-text:   #ff9aa2;
+}
+
+html {
+  font-size: 16px;
+  /* smooth colour transitions when switching theme */
+  transition: background-color 0.25s, color 0.25s;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 1rem;
+  line-height: 1.6;
+  transition: background-color 0.25s, color 0.25s;
+}
+
+/* =========================================
+   Layout
+   ========================================= */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* =========================================
+   Header
+   ========================================= */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: linear-gradient(135deg, var(--primary) 0%, #a78bfa 100%);
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* header-right groups balance + toggle button */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.balance-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.balance-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+
+.balance-amount {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+/* ── Challenge 1: Theme toggle button ── */
+.btn-theme {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.btn-theme:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: rotate(20deg) scale(1.1);
+}
+
+/* =========================================
+   Card
+   ========================================= */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.75rem 2rem;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 1.25rem;
+}
+
+/* =========================================
+   Main Grid (form + chart side by side)
+   ========================================= */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .header-right {
+    gap: 0.75rem;
+  }
+
+  .card {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* =========================================
+   Form
+   ========================================= */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+}
+
+.form-group input.invalid,
+.form-group select.invalid {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.12);
+}
+
+.error-msg {
+  font-size: 0.78rem;
+  color: var(--danger);
+  display: none;
+}
+
+.error-msg.visible {
+  display: block;
+}
+
+.btn-add {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 0.25rem;
+}
+
+.btn-add:hover {
+  background: var(--primary-hover);
+}
+
+.btn-add:active {
+  transform: scale(0.98);
+}
+
+/* =========================================
+   Chart
+   ========================================= */
+.chart-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.chart-wrapper canvas {
+  max-height: 260px;
+}
+
+.chart-empty {
+  position: absolute;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  padding: 0 1rem;
+  display: none;
+}
+
+.chart-empty.visible {
+  display: block;
+}
+
+/* =========================================
+   Transaction List
+   ========================================= */
+
+/* ── Challenge 2: List header with sort controls ── */
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.list-header h2 {
+  margin-bottom: 0; /* override card h2 margin since we handle it here */
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-controls label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.sort-controls select {
+  padding: 0.35rem 0.65rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: var(--text);
+  background: var(--bg);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.sort-controls select:focus {
+  border-color: var(--primary);
+}
+
+.list-wrapper {
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  /* Scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.list-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.list-wrapper::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+
+.list-empty {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Transaction Item */
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border-radius: 10px;
+  border-left: 4px solid var(--border);
+  gap: 0.75rem;
+  animation: slideIn 0.2s ease;
+}
+
+.transaction-item[data-category="Food"] {
+  border-left-color: var(--food);
+}
+
+.transaction-item[data-category="Transport"] {
+  border-left-color: var(--transport);
+}
+
+.transaction-item[data-category="Fun"] {
+  border-left-color: var(--fun);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.transaction-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transaction-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.transaction-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.badge-Food      { background: rgba(255, 107, 107, 0.15); color: #c0392b; }
+.badge-Transport { background: rgba(78, 205, 196, 0.15);  color: #1a7a74; }
+.badge-Fun       { background: rgba(255, 230, 109, 0.25); color: #9a7d0a; }
+
+.transaction-amount {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1;
+}
+
+.btn-delete:hover {
+  color: var(--danger);
+  background: rgba(255, 71, 87, 0.1);
+}
+
+/* =========================================
+   Challenge 3: Spending limit field
+   ========================================= */
+.label-optional {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 0.25rem;
+}
+
+.limit-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  min-height: 1em;
+}
+
+/* ── Over-limit transaction highlight ── */
+.transaction-item.over-limit {
+  background: var(--overlimit-bg);
+  border-left-color: var(--overlimit-border) !important;
+}
+
+.transaction-item.over-limit .transaction-amount {
+  color: var(--overlimit-text);
+}
+
+.over-limit-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--overlimit-text);
+  background: var(--overlimit-bg);
+  border: 1px solid var(--overlimit-border);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  white-space: nowrap;
+  margin-left: 0.3rem;
+}
+
+/* =========================================
+   Dark mode: card & input surface fixes
+   ========================================= */
+[data-theme="dark"] .card {
+  background: var(--surface);
+  transition: background-color 0.25s;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .sort-controls select {
+  background: #12121a;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .transaction-item {
+  background: #12121a;
+}
+
+[data-theme="dark"] .transaction-item.over-limit {
+  background: var(--overlimit-bg);
+}
+
+[data-theme="dark"] .badge-Food      { background: rgba(255,107,107,0.2); }
+[data-theme="dark"] .badge-Transport { background: rgba(78,205,196,0.2);  }
+[data-theme="dark"] .badge-Fun       { background: rgba(255,230,109,0.2); }
